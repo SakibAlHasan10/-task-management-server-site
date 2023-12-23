@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -81,11 +81,22 @@ async function run() {
       console.log(error);
     }
   });
-//   post task
+  //   post task
   app.post("/task", async (req, res) => {
     try {
       const task = req.body;
       const result = await taskCollection.insertOne(task);
+      res.send(result);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  app.delete("/task/:id", async (req, res) => {
+    // /task/${id}
+    try {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await taskCollection.deleteOne(query);
       res.send(result);
     } catch (error) {
       console.log(error);
