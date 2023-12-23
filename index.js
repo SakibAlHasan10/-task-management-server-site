@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 // middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://booking-aeff8.web.app"],
+    origin: ["http://localhost:5173", "https://task-management-637ee.web.app"],
     credentials: true,
   })
 );
@@ -91,8 +91,9 @@ async function run() {
       console.log(error);
     }
   });
+
+  // delete single task
   app.delete("/task/:id", async (req, res) => {
-    // /task/${id}
     try {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
